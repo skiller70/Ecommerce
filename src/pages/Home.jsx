@@ -1,13 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import Card from "../components/Card";
 
- const Home = () => {
-  return (
-    <>
-    <div className='container m-10'>Home</div>
+const Home = () => {
+  // HOOKS
+  const test = useSelector((state) => state.eCommerce.testReducer);
 
-    </>
-  )
-}
+  // HOOKS
 
+  // LIFE CYCLE
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+  // LIFE CYCLE
+  // STATE
+  const [products, setProducts] = useState([]);
+  // STATE
 
-export default Home
+  //METHODS
+  const fetchProduct = async () => {
+    const result = await axios.get("http://localhost:4000/getProduct");
+    setProducts(result.data);
+ 
+  };
+  //METHODS
+
+  if (products.length !== 0) {
+    return (
+      <div className=" m-10">
+        {products.map((items) => (
+          <div key={items._id}>
+            
+            <Card imageUrl={items.imageUrl} name={items.name} price={items.price} _id={items._id} />
+          </div>
+        ))}
+      </div>
+    );
+  } else {
+    return <>Loading</>;
+  }
+};
+
+export default Home;
