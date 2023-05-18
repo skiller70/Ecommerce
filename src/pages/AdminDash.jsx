@@ -1,41 +1,42 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 function AdminDash() {
   //STATE
 
   const [selectedFile, setSelectedFile] = useState(null);
-  const [name, setName] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [price, setPrice] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [brand, setBrand] = useState(null);
-  const [stock, setStock] = useState(null);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [brand, setBrand] = useState("");
+  const [stock, setStock] = useState("");
 
   //STATE
- 
 
   //METHODS
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleUpload = () => {
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("price", price);
-    formData.append("category", category);
-    formData.append("brand", brand);
-    formData.append("stock", stock);
-    axios
-      .post("/upload", formData)
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const handleUpload = async(e) => {
+    e.preventDefault()
+    const data = new FormData();
+    data.append("file", selectedFile);
+    data.append("name", name);
+    data.append("description", description);
+    data.append("price", price);
+    data.append("category", category);
+    data.append("brand", brand);
+    data.append("stock", stock);
+  
+  
+  try {
+    const result = await axios.post("http://localhost:4000/createProduct",data)
+    console.log(result.data)
+  } catch (error) {
+    
+  }
   };
 
   //METHODS
@@ -52,8 +53,10 @@ function AdminDash() {
               Name
             </label>
             <input
-            value={name}
-            onChange={(e)=>{setName(e.target.value)}}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
@@ -68,8 +71,10 @@ function AdminDash() {
               Description
             </label>
             <input
-                  value={description}
-                  onChange={(e)=>{setName(e.target.value)}}
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-last-name"
               type="text"
@@ -87,8 +92,10 @@ function AdminDash() {
               Price
             </label>
             <input
-                  value={price}
-                  onChange={(e)=>{setName(e.target.value)}}
+              value={price}
+              onChange={(e) => {
+                setPrice(e.target.value);
+              }}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="text"
@@ -103,8 +110,10 @@ function AdminDash() {
               Category
             </label>
             <input
-                  value={category}
-                  onChange={(e)=>{setName(e.target.value)}}
+              value={category}
+              onChange={(e) => {
+                setCategory(e.target.value);
+              }}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-last-name"
               type="text"
@@ -120,8 +129,10 @@ function AdminDash() {
               Stock
             </label>
             <input
-                  value={stock}
-                  onChange={(e)=>{setName(e.target.value)}}
+              value={stock}
+              onChange={(e) => {
+                setStock(e.target.value);
+              }}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-last-name"
               type="text"
@@ -137,8 +148,10 @@ function AdminDash() {
               Brand
             </label>
             <input
-                  value={brand}
-                  onChange={(e)=>{setName(e.target.value)}}
+              value={brand}
+              onChange={(e) => {
+                setBrand(e.target.value);
+              }}
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="grid-last-name"
               type="text"
@@ -146,7 +159,7 @@ function AdminDash() {
             />
           </div>
 
-          <div className="flex justify-between w-full">
+          <div className="flex  md:flex-row flex-col  justify-between items-center w-full">
             <div className="my-3 ml-3">
               <label
                 htmlFor="formFile"
@@ -155,7 +168,6 @@ function AdminDash() {
                 Default file input example
               </label>
               <input
-                   
                 onChange={handleFileChange}
                 className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
                 type="file"
@@ -163,7 +175,12 @@ function AdminDash() {
               />
             </div>
 
-            <button className="bg-blue-500 px-4 py-1 text-white shadow-md rounded-sm ">Create Product</button>
+            <div>
+              {" "}
+              <button onClick={handleUpload} className="bg-blue-500  px-2 py-1 mr-3  text-white shadow-md rounded-sm ">
+                Create Product
+              </button>
+            </div>
           </div>
         </div>
       </form>

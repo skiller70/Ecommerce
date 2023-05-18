@@ -26,6 +26,7 @@ function Login() {
   const userLogin = async (e) => {
     e.preventDefault();
     const data = { email, password };
+   try {
     const result = await axios.post("http://localhost:4000/login", data);
 
     if (result.status == 201) {
@@ -35,8 +36,13 @@ function Login() {
       successLogin()
       navigate("/");
     } else {
-    failedLogin()
+    return false
     }
+   } catch (error) {
+    
+failedLogin()
+
+   }
   };
   // METHODS
 

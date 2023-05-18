@@ -47,7 +47,7 @@ function App() {
           <Route path="/order" Component={Order} />
           <Route path="/login" Component={Login} />
           <Route path="/register" Component={Register} />
-          <Route path="/admin" Component={AdminDash} />
+          <Route path="/create" Component={AdminDash} />
         </Routes>
       </div>
     </>

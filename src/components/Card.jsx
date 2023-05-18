@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 function Card(props) {
   //   HOOKS
-  const { imageUrl, name, price, _id } = props;
+  const { imageUrl, name, price, _id ,description} = props;
   const dispatch = useDispatch();
   //   HOOKS
   //   STATE
@@ -41,19 +41,19 @@ function Card(props) {
       </a>
       <div className="px-5 pb-5">
         <a href="#">
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            Apple Watch Series 7 GPS, Aluminium Case, Starlight Sport
+          <h5 className="text-xl font-light tracking-tight text-gray-900 dark:text-white">
+          {description}
           </h5>
         </a>
 
         {/* <div className="mt-2">Qty <button onClick={dicQty} className=" px-2 rounded-md bg-red-100 mx-2">-</button>{qty}<button onClick={incQty} className=" px-2 rounded-md bg-blue-100 mx-2">+</button> </div> */}
         <div className="flex items-center mt-2.5 mb-5"></div>
         <div className="flex items-center justify-between">
-          <span className="text-3xl font-bold text-gray-900 dark:text-white">
-            599rs
+          <span className="text-3xl   font-medium text-gray-900 dark:text-white">
+           {`${price} rs`}
           </span>
           <button
-            onClick={() => {
+            onClick={() => {  
               dispatch({
                 type: "addToCart",
                 payload: {
