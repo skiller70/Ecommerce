@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+
 import Card from "../components/Card";
 
 const Home = () => {
@@ -28,14 +29,21 @@ const Home = () => {
 
   if (products.length !== 0) {
     return (
-      <div className=" m-10">
-        {products.map((items) => (
-          <div key={items._id}>
-            
-            <Card imageUrl={items.imageUrl} name={items.name} price={items.price} _id={items._id} />
-          </div>
-        ))}
-      </div>
+<>
+
+<div className=" p-10 grid grid-cols-1 md:grid-cols-3 w-full gap-3">
+          
+          {products.map((items) => (
+            <div key={items._id}>
+              
+              <Card imageUrl={items.imageUrl} name={items.name} price={items.price} _id={items._id} />
+            </div>
+          ))}
+        </div>
+
+</>
+
+
     );
   } else {
     return <>Loading</>;

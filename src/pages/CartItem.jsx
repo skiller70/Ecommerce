@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import CardTable from "../components/CardTable";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
+import StripeCheckout from "react-stripe-checkout";
+import { toast } from "react-toastify";
 function CartItem() {
   // HOOKS
 
@@ -10,7 +12,6 @@ function CartItem() {
   const { cartItem } = useSelector((state) => state.eCommerce);
   const { totalAmount } = useSelector((state) => state.eCommerce);
   const { userDetail } = useSelector((state) => state.eCommerce);
-  
 
   // HOOKS
   // LIFE CYCLE
@@ -23,11 +24,28 @@ function CartItem() {
   // LIFE CYCLE
 
   //METHODS
-  const checkOutPayment = async () => {
-    // const result = await axios.post("http://localhost:4000/paymentGateway",{ paymentMethod: paymentMethod.id })
-    const data = {cartItem,auth:userDetail.id}
-  const result = await axios.post("http://localhost:4000/order",data) 
-  console.log(result)
+  //ERROR AND SUCCESS MESSAGE
+  const successPayment = () => toast("Payment Successful", { type: "success" });
+  const failedPayment = () => toast("Payment Failed ", { type: "error" });
+  //ERROR AND SUCCESS MESSAGE
+
+  const handleToken = async (token, addresses) => {
+    try {
+      const result = await axios.post("http://localhost:4000/order", {
+        token,
+        cartItem,
+        totalAmount,
+        auth:userDetail.id
+      });
+      if (result.status == 200) {
+        successPayment()
+        dispatch({type:"clearCart"})
+      }else{
+        return false
+      }
+    } catch (error) {
+      failedPayment();
+    }
   };
 
   //METHODS
@@ -43,7 +61,7 @@ function CartItem() {
                 {cartItem.length !== 0 ? (
                   <>
                     {cartItem.map((items) => (
-                      <div key={items._id}>
+                      <table className="w-full" key={items._id}>
                         <CardTable
                           name={items.name}
                           _id={items._id}
@@ -52,7 +70,7 @@ function CartItem() {
                           totalPrice={items.totalPrice}
                           qty={items.Qty}
                         />
-                      </div>
+                      </table>
                     ))}
                   </>
                 ) : (
@@ -80,18 +98,35 @@ function CartItem() {
                   <span className="font-semibold">{totalAmount}</span>
                 </div>
                 {userDetail.name ? (
-                  <button
-                    onClick={checkOutPayment}
-                    className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
-                  >
-                    Checkout
-                  </button> 
+                  <StripeCheckout
+                    className="w-full"
+                    stripeKey="pk_test_51ISzS4G5oLdqdp8tUjrHUAbmIi06GhEexKVGTZsCodhgQFQgRiaHsW7SvBJ58PUm70uZH1aOdfFBm3UZ5Hm8S9WF0024ulihav"
+                    currency="INR"
+                    token={handleToken}
+                    billingAddress
+                    shippingAddress
+                    amount={totalAmount * 100}
+                    allowRememberMe
+                  />
                 ) : (
-                  <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
-                    Login to Checkout
-                  </button>
+                  //   <button
+
+                  //   className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+                  // >
+                  //   Checkout
+                  // </button>
+                  <Link to="/login">
+                    <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
+                      Login to Checkout
+                    </button>
+                  </Link>
                 )}
-                <button className="bg-red-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
+                <button
+                  onClick={() => {
+                    dispatch({ type: "clearCart" });
+                  }}
+                  className="bg-red-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+                >
                   Clear Cart
                 </button>
               </div>

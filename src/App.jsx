@@ -9,6 +9,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AdminDash from "./pages/AdminDash";
 
 function App() {
   // HOOKS
@@ -35,6 +38,7 @@ function App() {
   // METHODS
   return (
     <>
+    <ToastContainer/> 
       <div className=" h-[100vw]  w-100% ">
         <Navbar />
         <Routes>
@@ -43,6 +47,7 @@ function App() {
           <Route path="/order" Component={Order} />
           <Route path="/login" Component={Login} />
           <Route path="/register" Component={Register} />
+          <Route path="/admin" Component={AdminDash} />
         </Routes>
       </div>
     </>

@@ -4,8 +4,12 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
+import {  toast, ToastContainer} from 'react-toastify';
+
 function Login() {
   // HOOKS
+ 
+
   const navigate = useNavigate();
   const dispatch = useDispatch()
   // HOOKS
@@ -15,6 +19,10 @@ function Login() {
   //STATE
 
   // METHODS
+
+  const successLogin = () => toast("You are successfully logged in",{type:"success"});
+  const failedLogin = () => toast("Login Failed",{type:"error"});
+
   const userLogin = async (e) => {
     e.preventDefault();
     const data = { email, password };
@@ -24,15 +32,18 @@ function Login() {
       localStorage.setItem("isUser",result.data)
       const decode = jwt_decode(result.data)
       dispatch({type:"setUserDetail",payload:decode})
+      successLogin()
       navigate("/");
     } else {
-      console.log("something went wrong");
+    failedLogin()
     }
   };
   // METHODS
 
   return (
+  
     <div className=" m-10 flex  justify-center ">
+     <ToastContainer/>
       <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
         <form className="space-y-6" action="#">
           <h5 className="text-xl font-medium text-gray-900 dark:text-white">

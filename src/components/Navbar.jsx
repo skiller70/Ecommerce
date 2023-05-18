@@ -2,10 +2,28 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 export const Navbar = () => {
 // HOOKS
+
+const dispatch = useDispatch()
+const navigate = useNavigate()
 const {cartItem} = useSelector((state)=>state.eCommerce)
+const {userDetail} = useSelector((state)=>state.eCommerce)
+// HOOKS
+
+
+// METHODS
+
+const logoutUser = ()=>{
+  localStorage.removeItem("isUser")
+  dispatch({type:"logoutUser"})
+  navigate("/login")
+}
+// METHODS
+
+
   return (
     <div className=" w-[100%] flex items-center h-16 bg-[#A5C0DD] sticky top-0 z-20">
       {/* NAV BRAND */}
@@ -23,7 +41,17 @@ const {cartItem} = useSelector((state)=>state.eCommerce)
         </div>
       </div >
       {/* NAV LINK */}
-      <div className=" md:flex-1"></div>
+      <div className=" md:flex-1  md:flex md:justify-center">
+    <div>
+      {userDetail.name?<>{userDetail.name} <button onClick={logoutUser} className=" ml-2">Logout</button></>:<Link to="/login">
+      Login   
+      </Link>}
+  
+     
+    </div>
+
+
+      </div>
     </div>
   );
 };

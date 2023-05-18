@@ -18,48 +18,59 @@ function Order() {
   // STATE
 
   //METHODS
-  const fetchOrder= async () => {
-
+  const fetchOrder = async () => {
     const result = await axios.get(
       `http://localhost:4000/getOrder/${userDetail.id}`
     );
-    if(result.status == 201){
-    setOrders(result.data)
-    }else{
-      console.log("something went wrong")
+    if (result.status == 201) {
+      setOrders(result.data);
+      console.log(result.data);
+    } else {
+      console.log("something went wrong");
     }
   };
   //METHODS
 
   return (
-    <div>
-    <OrderCard/>
+    <div className=" p-10 grid grid-cols-1 md:grid-cols-3 w-full gap-3 ">
+      
+      {orders.map((item) => ( <div key={item._id}>
+          <OrderCard
+            id={item._id}
+            name={item.product.name}
+            description={item.product.description}
+            img={item.product.imageUrl}
+            qty={item.qty}
+          />
+        </div>))}
     </div>
   );
 }
 
-
-const OrderCard = ()=>{
-
-  return(
+const OrderCard = (props) => {
+  const {id,name,description,img,qty } = props
+  
+  return (
     <>
       <div className="max-w-sm rounded overflow-hidden shadow-lg">
         <img
-          className="w-full"
-          src="/img/card-top.jpg"
+          className="w-full aspect-square"
+          src={img}
           alt="Sunset in the mountains"
         />
         <div className="px-6 py-4">
-          <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
+          <div className="font-bold text-xl mb-2">{name}</div>
           <p className="text-gray-700 text-base">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Voluptatibus quia, nulla! Maiores et perferendis eaque,
-            exercitationem praesentium nihil.
+            {description}
           </p>
+          <div class="px-6 pt-4 pb-2">
+    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Quantity <span>{qty}</span></span>
+  
+  </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Order;

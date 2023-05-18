@@ -1,38 +1,46 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 function Register() {
   // HOOKS
   const navigate = useNavigate();
-    // HOOKS
+  // HOOKS
   //STATE
-const [name,setName] = useState("")
-const [email,setEmail] = useState("")
-const [password,setPassword] = useState("")
-const [cpassword,setCpassword] = useState("")
-const [lastname,setLastname] = useState("")
-  //STATE
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCpassword] = useState("");
+  const [lastname, setLastname] = useState("");
 
- 
+  //STATE
 
   // METHODS
-const registerUser = async(e)=>{
-  e.preventDefault();
-const data = {
-  name : `${name} ${lastname}`,
-  email,password
-}
 
-const result =  await axios.post("http://localhost:4000/register",data)
-console.log(result)
-if(result.status == 201){
-navigate("/login")
-}else{
-  console.log("something went wrong")
-}
+  //ERROR MESSAGE
+  const successRegister = () =>
+    toast("You are successfully Register", { type: "success" });
+  const failedRegister = () => toast("Register Failed", { type: "error" });
+  //ERROR MESSAGE
+  const registerUser = async (e) => {
+    e.preventDefault();
+    const data = {
+      name: `${name} ${lastname}`,
+      email,
+      password,
+    };
 
-}
+    const result = await axios.post("http://localhost:4000/register", data);
+
+    if (result.status == 201) {
+      successRegister();
+      navigate("/login");
+    } else {
+      failedRegister();
+      console.log("something went wrong");
+    }
+  };
   // METHODS
 
   return (
@@ -40,8 +48,10 @@ navigate("/login")
       <form>
         <div className="relative z-0 w-full mb-6 group">
           <input
-          value={email}
-          onChange={(e)=>{setEmail(e.target.value)}}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             type="email"
             name="floating_email"
             id="floating_email"
@@ -58,8 +68,10 @@ navigate("/login")
         </div>
         <div className="relative z-0 w-full mb-6 group">
           <input
-          value={password}
-          onChange={(e)=>{setPassword(e.target.value)}}
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             type="password"
             name="floating_password"
             id="floating_password"
@@ -68,7 +80,7 @@ navigate("/login")
             required
           />
           <label
-             htmlFor="floating_password"
+            htmlFor="floating_password"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
             Password
@@ -76,8 +88,10 @@ navigate("/login")
         </div>
         <div className="relative z-0 w-full mb-6 group">
           <input
-          value={cpassword}
-             onChange={(e)=>{setCpassword(e.target.value)}}
+            value={cpassword}
+            onChange={(e) => {
+              setCpassword(e.target.value);
+            }}
             type="password"
             name="repeat_password"
             id="floating_repeat_password"
@@ -86,7 +100,7 @@ navigate("/login")
             required
           />
           <label
-             htmlFor="floating_repeat_password"
+            htmlFor="floating_repeat_password"
             className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
             Confirm password
@@ -95,8 +109,10 @@ navigate("/login")
         <div className="grid md:grid-cols-2 md:gap-6">
           <div className="relative z-0 w-full mb-6 group">
             <input
-             value={name}
-             onChange={(e)=>{setName(e.target.value)}}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
               type="text"
               name="floating_first_name"
               id="floating_first_name"
@@ -105,7 +121,7 @@ navigate("/login")
               required
             />
             <label
-               htmlFor="floating_first_name"
+              htmlFor="floating_first_name"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               First name
@@ -113,8 +129,10 @@ navigate("/login")
           </div>
           <div className="relative z-0 w-full mb-6 group">
             <input
-            value={lastname}
-              onChange={(e)=>{setLastname(e.target.value)}}
+              value={lastname}
+              onChange={(e) => {
+                setLastname(e.target.value);
+              }}
               type="text"
               name="floating_last_name"
               id="floating_last_name"
@@ -123,7 +141,7 @@ navigate("/login")
               required
             />
             <label
-               htmlFor="floating_last_name"
+              htmlFor="floating_last_name"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Last name
@@ -132,7 +150,7 @@ navigate("/login")
         </div>
 
         <button
-        onClick={registerUser}
+          onClick={registerUser}
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
