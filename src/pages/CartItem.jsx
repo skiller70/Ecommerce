@@ -31,7 +31,7 @@ function CartItem() {
 
   const handleToken = async (token, addresses) => {
     try {
-      const result = await axios.post("http://localhost:4000/order", {
+      const result = await axios.post("/order", {
         token,
         cartItem,
         totalAmount,

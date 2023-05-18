@@ -31,7 +31,7 @@ function Register() {
       password,
     };
 
-    const result = await axios.post("http://localhost:4000/register", data);
+    const result = await axios.post("/register", data);
 
     if (result.status == 201) {
       successRegister();

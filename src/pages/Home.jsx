@@ -21,7 +21,7 @@ const Home = () => {
 
   //METHODS
   const fetchProduct = async () => {
-    const result = await axios.get("http://localhost:4000/getProduct");
+    const result = await axios.get("/getProduct");
     setProducts(result.data);
  
   };

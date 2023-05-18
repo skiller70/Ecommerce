@@ -20,7 +20,7 @@ function Order() {
   //METHODS
   const fetchOrder = async () => {
     const result = await axios.get(
-      `http://localhost:4000/getOrder/${userDetail.id}`
+      `/getOrder/${userDetail.id}`
     );
     if (result.status == 201) {
       setOrders(result.data);

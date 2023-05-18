@@ -32,7 +32,7 @@ function AdminDash() {
   
   
   try {
-    const result = await axios.post("http://localhost:4000/createProduct",data)
+    const result = await axios.post("/createProduct",data)
     console.log(result.data)
   } catch (error) {
     

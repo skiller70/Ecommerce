@@ -1,17 +1,16 @@
 import axios from "axios";
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
-import {  toast, ToastContainer} from 'react-toastify';
+import { toast } from "react-toastify";
 
 function Login() {
   // HOOKS
- 
 
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // HOOKS
   //STATE
   const [email, setEmail] = useState("");
@@ -20,36 +19,34 @@ function Login() {
 
   // METHODS
 
-  const successLogin = () => toast("You are successfully logged in",{type:"success"});
-  const failedLogin = () => toast("Login Failed",{type:"error"});
+  const successLogin = () =>
+    toast("You are successfully logged in", { type: "success" });
+  const failedLogin = () => toast("Login Failed", { type: "error" });
 
   const userLogin = async (e) => {
     e.preventDefault();
     const data = { email, password };
-   try {
-    const result = await axios.post("http://localhost:4000/login", data);
+    try {
+      const result = await axios.post("/login", data);
 
-    if (result.status == 201) {
-      localStorage.setItem("isUser",result.data)
-      const decode = jwt_decode(result.data)
-      dispatch({type:"setUserDetail",payload:decode})
-      successLogin()
-      navigate("/");
-    } else {
-    return false
+      if (result.status == 201) {
+        localStorage.setItem("isUser", result.data);
+        const decode = jwt_decode(result.data);
+        dispatch({ type: "setUserDetail", payload: decode });
+        successLogin();
+        navigate("/");
+      } else {
+        return false;
+      }
+    } catch (error) {
+      failedLogin()
     }
-   } catch (error) {
-    
-failedLogin()
-
-   }
   };
   // METHODS
 
   return (
-  
     <div className=" m-10 flex  justify-center ">
-     <ToastContainer/>
+  
       <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
         <form className="space-y-6" action="#">
           <h5 className="text-xl font-medium text-gray-900 dark:text-white">
@@ -115,7 +112,7 @@ failedLogin()
             </div>
           </div>
           <button
-          onClick={userLogin}
+            onClick={userLogin}
             type="submit"
             className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
